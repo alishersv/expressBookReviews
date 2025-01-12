@@ -12,14 +12,25 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  res.send(books)
-  //return res.status(300).json({message: "Yet to be implemented"});
+    let Promise1 = new Promise((resolve,reject) => {
+        setTimeout(() => {
+          resolve("Promise 1 resolved")
+        },3000)})
+    Promise1.then((successMessage) => {
+        res.send(successMessage + '\n' + JSON.stringify(books,null,4));
+        })
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  const isbn = parseInt(req.params.isbn);
-  res.send(books[isbn]);
+    const isbn = parseInt(req.params.isbn);
+    let Promise2 = new Promise((resolve,reject) => {
+        setTimeout(() => {
+          resolve("Promise 1 resolved")
+        },1000)})
+    Promise2.then((successMessage) => {
+        res.send(successMessage + '\n' + JSON.stringify(books[isbn],null,4));
+        })
   //return res.status(300).json({message: "Yet to be implemented"});
  });
   
@@ -31,8 +42,15 @@ public_users.get('/author/:author',function (req, res) {
     if (books[isbn]['author'] == author) {
         authorBooks = books[isbn]['title']
     }
+    let Promise2 = new Promise((resolve,reject) => {
+        setTimeout(() => {
+          resolve("Promise 1 resolved")
+        },1000)})
+    Promise2.then((successMessage) => {
+        res.send(successMessage + '\n' + `${author} published "${authorBooks}"`);
+        })
   };
-  res.send(`${author} published "${authorBooks}"`);
+  //res.send(`${author} published "${authorBooks}"`);
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
@@ -45,8 +63,14 @@ public_users.get('/title/:title',function (req, res) {
         author = books[isbn]['author']
     }
   };
-  res.send(`The book named "${title}" was published by ${author}`);
-  //return res.status(300).json({message: "Yet to be implemented"});
+  let Promise2 = new Promise((resolve,reject) => {
+    setTimeout(() => {
+      resolve("Promise 1 resolved")
+    },1000)})
+    Promise2.then((successMessage) => {
+    res.send(successMessage + '\n' + `The book named "${title}" was published by ${author}`);
+    })
+
 });
 
 //  Get book review

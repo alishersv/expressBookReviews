@@ -76,9 +76,33 @@ regd_users.post("/register", (req, res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implementedAA"});
+  const isbn = req.params.isbn;
+  let book = books[isbn];
+  if (book) {
+    let review = req.body.review;
+    if (review) {
+        books[isbn]['reviews']['1'] = review;
+        res.send(`The review "${review}" has been added. Here is the books object after change ${JSON.stringify(books,null,4)}`);
+    };
+  } else {
+    res.send("Unable to find the book")
+  };
+    
+//return res.status(300).json({message: "Yet to be implementedAA"});
 });
+
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const isbn = req.params.isbn;
+    let book = books[isbn];
+    if (book) {
+        books[isbn]['reviews'] = {};
+        res.send(`The reviews for isbn ${isbn} are deleted. Here is the books object after change ${JSON.stringify(books,null,4)}`);
+    } else {
+      res.send("Unable to find the book")
+    };
+      
+  //return res.status(300).json({message: "Yet to be implementedAA"});
+  });
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
